@@ -8,6 +8,7 @@
 #include  <Protocol/DiskIo2.h>
 #include  <Protocol/BlockIo.h>
 #include  <Guid/FileInfo.h>
+#include  "frame_buffer_config.hpp"
 
 struct MemoryMap {
   UINTN buffer_size;
@@ -25,11 +26,11 @@ EFI_STATUS GetMemoryMap(struct MemoryMap* map) {
 
   map->map_size = map->buffer_size;
   return gBS->GetMemoryMap(
-    &map->map_size,
-    (EFI_MEMORY_DESCRIPTOR*)map->buffer,
-    &map->map_key,
-    &map->descriptor_size,
-    &map->descriptor_version
+      &map->map_size,
+      (EFI_MEMORY_DESCRIPTOR*)map->buffer,
+      &map->map_key,
+      &map->descriptor_size,
+      &map->descriptor_version
   );
 }
 
@@ -70,7 +71,7 @@ EFI_STATUS SaveMemoryMap(struct MemoryMap* map, EFI_FILE_PROTOCOL* file) {
 
   Print(L"map->buffer = %08lx, map->map_size = %08lx\n",
       map->buffer, map->map_size);
-  
+
   EFI_PHYSICAL_ADDRESS iter;
   int i;
   for (iter = (EFI_PHYSICAL_ADDRESS)map->buffer, i = 0;
@@ -98,24 +99,24 @@ EFI_STATUS OpenRootDir(EFI_HANDLE image_handle, EFI_FILE_PROTOCOL** root) {
   EFI_SIMPLE_FILE_SYSTEM_PROTOCOL* fs;
 
   status = gBS->OpenProtocol(
-    image_handle,
-    &gEfiLoadedImageProtocolGuid,
-    (VOID**)&loaded_image,
-    image_handle,
-    NULL,
-    EFI_OPEN_PROTOCOL_BY_HANDLE_PROTOCOL
+      image_handle,
+      &gEfiLoadedImageProtocolGuid,
+      (VOID**)&loaded_image,
+      image_handle,
+      NULL,
+      EFI_OPEN_PROTOCOL_BY_HANDLE_PROTOCOL
   );
   if (EFI_ERROR(status)) {
     return status;
   }
 
   status = gBS->OpenProtocol(
-    loaded_image->DeviceHandle,
-    &gEfiSimpleFileSystemProtocolGuid,
-    (VOID**)&fs,
-    image_handle,
-    NULL,
-    EFI_OPEN_PROTOCOL_BY_HANDLE_PROTOCOL
+      loaded_image->DeviceHandle,
+      &gEfiSimpleFileSystemProtocolGuid,
+      (VOID**)&fs,
+      image_handle,
+      NULL,
+      EFI_OPEN_PROTOCOL_BY_HANDLE_PROTOCOL
   );
   if (EFI_ERROR(status)) {
     return status;
@@ -128,7 +129,7 @@ EFI_STATUS OpenGOP(EFI_HANDLE image_handle, EFI_GRAPHICS_OUTPUT_PROTOCOL** gop) 
   EFI_STATUS status;
   UINTN num_gop_handles = 0;
   EFI_HANDLE* gop_handles = NULL;
-  
+
   status = gBS->LocateHandleBuffer(
       ByProtocol,
       &gEfiGraphicsOutputProtocolGuid,
@@ -237,7 +238,7 @@ EFI_STATUS EFIAPI UefiMain(
       gop->Mode->FrameBufferBase,
       gop->Mode->FrameBufferBase + gop->Mode->FrameBufferSize,
       gop->Mode->FrameBufferSize);
-  
+
   UINT8* frame_buffer = (UINT8*)gop->Mode->FrameBufferBase;
   for (UINTN i = 0; i < gop->Mode->FrameBufferSize; ++i) {
     frame_buffer[i] = 255;
@@ -255,9 +256,8 @@ EFI_STATUS EFIAPI UefiMain(
   UINTN file_info_size = sizeof(EFI_FILE_INFO) + sizeof(CHAR16) * 12;
   UINT8 file_info_buffer[file_info_size];
   status = kernel_file->GetInfo(
-    kernel_file, &gEfiFileInfoGuid, &file_info_size, file_info_buffer
+      kernel_file, &gEfiFileInfoGuid, &file_info_size, file_info_buffer
   );
-
   if (EFI_ERROR(status)) {
     Print(L"failed to get file information: %r\n", status);
     Halt();
@@ -268,8 +268,8 @@ EFI_STATUS EFIAPI UefiMain(
 
   EFI_PHYSICAL_ADDRESS kernel_base_addr = 0x100000;
   status = gBS->AllocatePages(
-    AllocateAddress, EfiLoaderData,
-    (kernel_file_size + 0xfff) / 0x1000, &kernel_base_addr
+      AllocateAddress, EfiLoaderData,
+      (kernel_file_size + 0xfff) / 0x1000, &kernel_base_addr
   );
 
   if (EFI_ERROR(status)) {
@@ -300,9 +300,28 @@ EFI_STATUS EFIAPI UefiMain(
 
   UINT64 entry_addr = *(UINT64*)(kernel_base_addr + 24);
 
-  typedef void EntryPointType(UINT64, UINT64);
+  struct FrameBufferConfig config = {
+    (UINT8*)gop->Mode->FrameBufferBase,
+    gop->Mode->Info->PixelsPerScanLine,
+    gop->Mode->Info->HorizontalResolution,
+    gop->Mode->Info->VerticalResolution,
+    0
+  };
+  switch (gop->Mode->Info->PixelFormat) {
+    case PixelRedGreenBlueReserved8BitPerColor:
+      config.pixel_format = kPixelRGBResv8BitPerColor;
+      break;
+    case PixelBlueGreenRedReserved8BitPerColor:
+      config.pixel_format = kPixelBGRResv8BitPerColor;
+      break;
+    default:
+      Print(L"Unimplemented pixel format: %d\n", gop->Mode->Info->PixelFormat);
+      Halt();
+  }
+
+  typedef void EntryPointType(const struct FrameBufferConfig*);
   EntryPointType* entry_point = (EntryPointType*)entry_addr;
-  entry_point(gop->Mode->FrameBufferBase, gop->Mode->FrameBufferSize);
+  entry_point(&config);
 
   Print(L"All done\n");
 

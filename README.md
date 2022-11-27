@@ -5,6 +5,7 @@ source $HOME/.profile
 
 ## kernelビルド
 ```
+cd $HOME/workspace/mikanos-of-the-ryo/kernel
 source $HOME/osbook/devenv/buildenv.sh
 make
 ```

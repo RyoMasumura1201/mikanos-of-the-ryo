@@ -1,0 +1,22 @@
+## 事前
+```
+source $HOME/.profile
+```
+
+## kernelビルド
+```
+source $HOME/osbook/devenv/buildenv.sh
+make
+```
+
+## UEFIビルド
+```
+cd $HOME/edk2
+source edksetup.sh
+build
+```
+
+## QEMU実行
+```
+$HOME/osbook/devenv/run_qemu.sh Build/MikanLoaderX64/DEBUG_CLANG38/X64/Loader.efi $HOME/workspace/mikanos-of-the-ryo/kernel/kernel.elf
+```

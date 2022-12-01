@@ -21,3 +21,8 @@ build
 ```
 $HOME/osbook/devenv/run_qemu.sh Build/MikanLoaderX64/DEBUG_CLANG38/X64/Loader.efi $HOME/workspace/mikanos-of-the-ryo/kernel/kernel.elf
 ```
+
+## tag比較
+```
+git diff --name-only --diff-filter=AMCRD tag1 tag2
+```

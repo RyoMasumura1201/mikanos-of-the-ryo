@@ -50,6 +50,12 @@ int printk(const char* format, ...) {
   result = vsprintf(s, format, ap);
   va_end(ap);
 
+  StartLAPICTimer();
+  console->PutString(s);
+  auto elapsed = LAPICTimerElapsed();
+  StopLAPICTimer();
+
+  sprintf(s, "[%9d]", elapsed);
   console->PutString(s);
   return result;
 }
@@ -112,6 +118,7 @@ extern "C" void KernelMainNewStack(
     const MemoryMap& memory_map_ref) {
   FrameBufferConfig frame_buffer_config{frame_buffer_config_ref};
   MemoryMap memory_map{memory_map_ref};
+
   switch (frame_buffer_config.pixel_format) {
     case kPixelRGBResv8BitPerColor:
       pixel_writer = new(pixel_writer_buf)

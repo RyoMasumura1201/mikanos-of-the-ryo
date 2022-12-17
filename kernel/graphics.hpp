@@ -76,6 +76,7 @@ Rectangle<T> operator&(const Rectangle<T>& lhs, const Rectangle<U>& rhs) {
   auto new_size = ElementMin(lhs_end, rhs_end) - new_pos;
   return {new_pos, new_size};
 }
+
 class PixelWriter {
  public:
   virtual ~PixelWriter() = default;

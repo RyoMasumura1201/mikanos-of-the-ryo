@@ -38,19 +38,18 @@ main.o: main.cpp \
   /home/ryo_masumura/osbook/devenv/x86_64-elf/include/c++/v1/climits \
   /home/ryo_masumura/osbook/devenv/x86_64-elf/include/c++/v1/limits.h \
   /home/ryo_masumura/osbook/devenv/x86_64-elf/include/c++/v1/__split_buffer \
+  /home/ryo_masumura/osbook/devenv/x86_64-elf/include/c++/v1/deque \
   frame_buffer_config.hpp memory_map.hpp graphics.hpp mouse.hpp font.hpp \
   console.hpp window.hpp \
   /home/ryo_masumura/osbook/devenv/x86_64-elf/include/c++/v1/optional \
   frame_buffer.hpp error.hpp \
   /home/ryo_masumura/osbook/devenv/x86_64-elf/include/c++/v1/array \
-  pci.hpp logger.hpp usb/memory.hpp usb/device.hpp usb/setupdata.hpp \
-  usb/endpoint.hpp usb/arraymap.hpp usb/classdriver/mouse.hpp \
-  usb/classdriver/hid.hpp usb/classdriver/base.hpp usb/xhci/xhci.hpp \
-  usb/xhci/registers.hpp register.hpp usb/xhci/context.hpp \
-  usb/xhci/ring.hpp usb/xhci/trb.hpp usb/xhci/port.hpp \
-  usb/xhci/devmgr.hpp usb/xhci/device.hpp interrupt.hpp \
-  x86_descriptor.hpp asmfunc.h queue.hpp segment.hpp paging.hpp \
-  memory_manager.hpp layer.hpp \
+  pci.hpp logger.hpp usb/xhci/xhci.hpp usb/xhci/registers.hpp \
+  register.hpp usb/xhci/context.hpp usb/endpoint.hpp usb/xhci/ring.hpp \
+  usb/memory.hpp usb/xhci/trb.hpp usb/xhci/port.hpp usb/xhci/devmgr.hpp \
+  usb/xhci/device.hpp usb/device.hpp usb/setupdata.hpp usb/arraymap.hpp \
+  interrupt.hpp x86_descriptor.hpp message.hpp asmfunc.h segment.hpp \
+  paging.hpp memory_manager.hpp layer.hpp \
   /home/ryo_masumura/osbook/devenv/x86_64-elf/include/c++/v1/map \
   /home/ryo_masumura/osbook/devenv/x86_64-elf/include/c++/v1/__tree \
   /home/ryo_masumura/osbook/devenv/x86_64-elf/include/c++/v1/__node_handle

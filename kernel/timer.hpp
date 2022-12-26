@@ -24,6 +24,7 @@ class Timer {
 inline bool operator<(const Timer& lhs, const Timer& rhs) {
   return lhs.Timeout() > rhs.Timeout();
 }
+
 class TimerManager {
  public:
   TimerManager(std::deque<Message>& msg_queue);

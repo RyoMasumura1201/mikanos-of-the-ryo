@@ -56,6 +56,7 @@ class Task {
 class TaskManager {
  public:
   static const int kMaxLevel = 3;
+
   TaskManager();
   Task& NewTask();
   void SwitchTask(bool current_sleep = false);

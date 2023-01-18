@@ -42,6 +42,14 @@ main.o: main.cpp \
   frame_buffer_config.hpp memory_map.hpp graphics.hpp mouse.hpp font.hpp \
   console.hpp window.hpp \
   /home/ryo_masumura/osbook/devenv/x86_64-elf/include/c++/v1/optional \
+  /home/ryo_masumura/osbook/devenv/x86_64-elf/include/c++/v1/string \
+  /home/ryo_masumura/osbook/devenv/x86_64-elf/include/c++/v1/string_view \
+  /home/ryo_masumura/osbook/devenv/x86_64-elf/include/c++/v1/__string \
+  /home/ryo_masumura/osbook/devenv/x86_64-elf/include/c++/v1/cwchar \
+  /home/ryo_masumura/osbook/devenv/x86_64-elf/include/c++/v1/cwctype \
+  /home/ryo_masumura/osbook/devenv/x86_64-elf/include/c++/v1/cctype \
+  /home/ryo_masumura/osbook/devenv/x86_64-elf/include/c++/v1/ctype.h \
+  /home/ryo_masumura/osbook/devenv/x86_64-elf/include/c++/v1/wctype.h \
   frame_buffer.hpp error.hpp \
   /home/ryo_masumura/osbook/devenv/x86_64-elf/include/c++/v1/array \
   pci.hpp logger.hpp usb/xhci/xhci.hpp usb/xhci/registers.hpp \

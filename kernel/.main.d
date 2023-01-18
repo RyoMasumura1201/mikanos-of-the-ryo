@@ -63,4 +63,4 @@ main.o: main.cpp \
   /home/ryo_masumura/osbook/devenv/x86_64-elf/include/c++/v1/__node_handle \
   timer.hpp \
   /home/ryo_masumura/osbook/devenv/x86_64-elf/include/c++/v1/queue \
-  acpi.hpp keyboard.hpp task.hpp
+  acpi.hpp keyboard.hpp task.hpp terminal.hpp

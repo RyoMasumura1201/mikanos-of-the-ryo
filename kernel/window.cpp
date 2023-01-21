@@ -15,7 +15,6 @@ namespace {
 
     // fill main box
     fill_rect(pos + Vector2D<int>{1, 1}, size - Vector2D<int>{2, 2}, background);
-// #@@range_end(draw_tbox)
 
     // draw border lines
     fill_rect(pos,                            {size.x, 1}, border_dark);

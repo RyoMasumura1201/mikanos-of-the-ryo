@@ -26,3 +26,11 @@ $HOME/osbook/devenv/run_qemu.sh Build/MikanLoaderX64/DEBUG_CLANG38/X64/Loader.ef
 ```
 git diff --name-only --diff-filter=AMCRD tag1 tag2
 ```
+
+## appまとめて実行
+```
+cd $HOME/workspace/mikanos-of-the-ryo
+source $HOME/.profile
+source $HOME/osbook/devenv/buildenv.sh
+source buid.sh run
+```

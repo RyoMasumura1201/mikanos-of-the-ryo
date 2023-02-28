@@ -146,6 +146,7 @@ Error CopyLoadSegments(Elf64_Ehdr* ehdr) {
   }
   return MAKE_ERROR(Error::kSuccess);
 }
+
 Error LoadELF(Elf64_Ehdr* ehdr) {
   if (ehdr->e_type != ET_EXEC) {
     return MAKE_ERROR(Error::kInvalidFormat);

@@ -162,3 +162,13 @@ SwitchContext:
     mov rdi, [rdi + 0x60]
 
     o64 iret
+
+global CallApp
+CallApp:
+    push rbp
+    mov rbp, rsp
+    push rcx
+    push r9
+    push rdx
+    push r8
+    o64 retf
